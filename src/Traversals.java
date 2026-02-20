@@ -47,11 +47,14 @@ public class Traversals {
    * @param <T>  the type of values stored in the tree
    * @return a post-order traversal string, or an empty string if the tree is null
    */
+
+  // NOTE: POST order moves from left to right + the node value(based on question)
   public static <T> String buildPostOrderString(TreeNode<T> node) {
     if (node == null) return "";
+    String postOrdeString = buildPostOrderString(node.left) + buildPostOrderString(node.right) + node.value;
 
 
-    return null;
+    return postOrdeString;
   }
 
   /**
@@ -63,9 +66,27 @@ public class Traversals {
    * @return a list of node values in a top-to-bottom order, or an empty list if the tree is null
    */
   public static <T> List<T> collectLevelOrderValues(TreeNode<T> node) {
-    return null;
-  }
+    if (node == null) return new ArrayList<T>();
+      List<T> result = new ArrayList<>();
 
+    if (node == null) return result;
+
+    Queue<TreeNode<T>> queue = new LinkedList<>();
+    queue.add(node);
+
+    while (!queue.isEmpty()) {
+        TreeNode<T> current = queue.remove();
+        result.add(current.value);
+
+        if (current.left != null)
+            queue.add(current.left);
+
+        if (current.right != null)
+            queue.add(current.right);
+    }
+
+    return result;
+}
   /**
    * Counts the distinct values in the given tree.
    * If node is null, returns 0.
@@ -74,8 +95,22 @@ public class Traversals {
    * @return the number of unique values in the tree, or 0 if the tree is null
    */
   public static int countDistinctValues(TreeNode<Integer> node) {
-    return 0;
-  }
+    Set<Integer> uniqueValues = new HashSet<>();
+        collectValues(node, uniqueValues);  
+        return uniqueValues.size();          
+    }
+
+    // Helper method to traverse tree and add values to the set
+    private static void collectValues(TreeNode<Integer> node, Set<Integer> set) {
+        if (node == null) return;         
+        set.add(node.value);              
+        collectValues(node.left, set);     
+        collectValues(node.right, set);    
+    }
+
+
+
+  
 
   /**
    * Determines whether there is at least one root-to-leaf path in the tree
@@ -86,6 +121,7 @@ public class Traversals {
    * @return true if there exists a strictly increasing root-to-leaf path, false otherwise
    */
   public static boolean hasStrictlyIncreasingPath(TreeNode<Integer> node) {
+    
     return false;
   }
 
