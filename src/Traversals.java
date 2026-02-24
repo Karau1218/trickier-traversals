@@ -108,10 +108,7 @@ public class Traversals {
         collectValues(node.right, set);    
     }
 
-
-
-  
-
+/*
   /**
    * Determines whether there is at least one root-to-leaf path in the tree
    * where each successive node's value is strictly greater than the previous node's value.
@@ -121,9 +118,25 @@ public class Traversals {
    * @return true if there exists a strictly increasing root-to-leaf path, false otherwise
    */
   public static boolean hasStrictlyIncreasingPath(TreeNode<Integer> node) {
+
+ return checkPath(node, Integer.MIN_VALUE);
+}
+
+private static boolean checkPath(TreeNode<Integer> node, int prevValue) {
+    if (node == null) return false;
+
+    // check if current value is greater than previous
+    if (node.value <= prevValue) return false;
+
+    // if its a leaf, there's a path
+    if (node.left == null && node.right == null) return true;
+
+    // check left or right subtrees
+    return checkPath(node.left, node.value) || checkPath(node.right, node.value);
+}
     
-    return false;
-  }
+   
+
 
   // OPTIONAL CHALLENGE
   /**
